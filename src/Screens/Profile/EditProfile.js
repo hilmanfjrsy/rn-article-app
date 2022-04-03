@@ -1,34 +1,34 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { Component, useContext, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import ButtonPrimary from '../../Components/ButtonPrimary';
 import RenderTextHorizontal from '../../Components/RenderTextHorizontal';
 import { ContextProvider } from '../../Context/BaseContext';
-import { hideEmail, setStorage, showNotification } from '../../Utils/GlobalFunc';
+import { hideEmail, postRequest, setStorage, showNotification } from '../../Utils/GlobalFunc';
 import GlobalStyles from '../../Utils/GlobalStyles';
-import Feat from 'react-native-vector-icons/Feather'
 
 export default function EditProfile({ navigation, route }) {
   const context = useContext(ContextProvider)
   const profile = context.user
   const [fullName, setFullName] = useState(profile?.name)
   const [description, setDescription] = useState(profile?.description)
+  const [idAvatar, setIdAvatar] = useState(profile?.avatar_id)
+  const [avatar, setAvatar] = useState(profile?.avatar.avatar)
+  const [isLoading, setIsLoading] = useState(false)
 
   return (
     <SafeAreaView style={[GlobalStyles.container, GlobalStyles.p20, { paddingBottom: 0, backgroundColor: 'white' }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <Text style={[GlobalStyles.fontPrimary, { fontSize: 30, fontWeight: 'bold', marginBottom: 30 }]}>Edit Profile</Text> */}
         <View>
           <FastImage
             source={{
-              uri: profile?.avatar.avatar
+              uri: avatar
             }}
             style={{ height: 100, width: 100, borderRadius: 100, alignSelf: 'center' }}
             resizeMode={FastImage.resizeMode.cover}
           />
           <ButtonPrimary
-            onPress={() => { }}
+            onPress={() => navigation.navigate('PickAvatar', { avatar_id: profile?.avatar.id, avatar: avatar, setId: (v) => setIdAvatar(v), setAvatar: (v) => setAvatar(v) })}
             type="label"
             text="Ubah Gambar"
             style={{ alignSelf: 'center', marginTop: 10 }}
@@ -55,7 +55,8 @@ export default function EditProfile({ navigation, route }) {
             valueTextInput={description}
           />
           <ButtonPrimary
-            text={'Update Profile'}
+            isLoading={isLoading}
+            text={'Simpan Perubahan'}
             style={{ marginTop: 30 }}
             onPress={() => saveProfile()}
           />
@@ -65,14 +66,20 @@ export default function EditProfile({ navigation, route }) {
   )
 
   async function saveProfile() {
+    setIsLoading(true)
     let newUpdate = {
       name: fullName,
-      avatar_id: avatarId,
+      avatar_id: idAvatar,
       description
     }
-    // await setStorage('user', all)
-    // await setStorage('user', all)
-    showNotification('success', 'Berhasil', 'Profil telah diperbarui')
-    navigation.goBack()
+
+    let { data } = await postRequest('users/updateProfile', newUpdate)
+    if (data) {
+      await setStorage('user', data.data)
+      context.setUser(data.data)
+      showNotification('success', 'Berhasil', data.message)
+      navigation.goBack()
+    }
+    setIsLoading(false)
   }
 }

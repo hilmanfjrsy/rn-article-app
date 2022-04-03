@@ -22,7 +22,12 @@ export async function refreshToken() {
 
 export async function getRequest(path) {
   try {
-    const response = await axios.get(GlobalVar.host + path);
+    let token = await getStorage('token')
+    const response = await axios.get(GlobalVar.host + path, {
+      headers: {
+        'authorization': token
+      },
+    });
     if (response) {
       return response;
     }
@@ -63,7 +68,12 @@ export async function getRequest(path) {
 
 export async function postRequest(path, data) {
   try {
-    const response = await axios.post(GlobalVar.host + path, data);
+    let token = await getStorage('token')
+    const response = await axios.post(GlobalVar.host + path, data, {
+      headers: {
+        'authorization': token
+      },
+    });
     if (response) {
       return response;
     }
@@ -248,7 +258,7 @@ export async function setStorage(key, value) {
 }
 
 export async function getStorage(key) {
-  let s = await AsyncStorage.getItem(key)
+  let s = JSON.parse(await AsyncStorage.getItem(key))
   if (s) return s
   return null
 }

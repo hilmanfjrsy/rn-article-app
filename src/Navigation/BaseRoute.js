@@ -11,6 +11,7 @@ import SearchResult from '../Screens/SearchResult';
 import DetailHotel from '../Screens/DetailHotel';
 
 import EditProfile from '../Screens/Profile/EditProfile';
+import PickAvatar from '../Screens/Profile/PickAvatar';
 import Booking from '../Screens/Booking';
 
 const Stack = createNativeStackNavigator();
@@ -44,6 +45,11 @@ export default function BaseRoute() {
           title: ''
         })} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={({ navigation, route }) => ({
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTitle: '',
+        })} />
+        <Stack.Screen name="PickAvatar" component={PickAvatar} options={({ navigation, route }) => ({
           headerShown: true,
           headerShadowVisible: false,
           headerTitle: '',

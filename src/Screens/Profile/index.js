@@ -12,30 +12,17 @@ import { hideEmail } from '../../Utils/GlobalFunc';
 
 export default function Profile({ navigation, route }) {
   const context = useContext(ContextProvider)
-  const [profile, setProfile] = useState(context.user)
-  const [wishlist, setWishlist] = useState([])
-  const [booking, setBooking] = useState([])
+  const [profile, setProfile] = useState(null)
 
-  async function getProfile() {
-    let prof = JSON.parse(await AsyncStorage.getItem('profile'))
-    let book = JSON.parse(await AsyncStorage.getItem('booking_' + prof.username)) || []
-    let wish = JSON.parse(await AsyncStorage.getItem('wishlist_' + prof.username)) || []
-    if (prof) {
-      setProfile(prof)
-    }
-    if (book) {
-      setBooking(book)
-    }
-    if (wish) {
-      setWishlist(wish)
-    }
-  }
+  useEffect(() => {
+    setProfile(Object.create(context.user))
+  }, [context])
 
   return (
     <SafeAreaView style={[GlobalStyles.container, { padding: 0, flex: 1 }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={[GlobalStyles.cardBody, { borderRadius: 0, marginTop: 0, padding: 20 }]}>
-          <View style={[GlobalStyles.row, {marginTop:20}]}>
+          <View style={[GlobalStyles.row, { marginTop: 20 }]}>
             <View style={{ alignItems: 'center' }}>
               <FastImage
                 source={{
@@ -57,7 +44,7 @@ export default function Profile({ navigation, route }) {
 
               <View style={[GlobalStyles.spaceBetween, { marginTop: 20 }]}>
                 <View style={{ alignItems: 'center' }}>
-                  <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>{booking.length}</Text>
+                  <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>{0}</Text>
                   <Text style={[GlobalStyles.fontSecondary, {}]}>Artikel disukai</Text>
                 </View>
 
@@ -67,14 +54,14 @@ export default function Profile({ navigation, route }) {
                 </View>
 
                 <View style={{ alignItems: 'center' }}>
-                  <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>{wishlist.length}</Text>
+                  <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>{0}</Text>
                   <Text style={[GlobalStyles.fontSecondary, {}]}>Artikel</Text>
                 </View>
               </View>
             </View>
           </View>
         </View>
-        
+
       </ScrollView>
     </SafeAreaView>
   )

@@ -31,6 +31,7 @@ export default function RenderTextHorizontal({
         value={valueTextInput}
         editable={!inputDisabled}
         keyboardType={keyType}
+        autoCapitalize="words"
         placeholder='Ketik disini...'
         onChangeText={onChangeText}
         style={[GlobalStyles.fontPrimary, { fontWeight: 'bold', textAlign: 'right', padding: 0, }]}

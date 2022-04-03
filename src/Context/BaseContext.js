@@ -8,16 +8,15 @@ export default function BaseContext({ children }) {
 
   useEffect(() => {
     (async () => {
-      let u = JSON.parse(await getStorage('user'))
+      let u = await getStorage('user')
       if (u) setUser(u)
-      console.log('User',u)
     })()
   }, [])
   return (
     <ContextProvider.Provider
       value={{
         user,
-        setUser
+        setUser,
       }}
     >
       {children}
