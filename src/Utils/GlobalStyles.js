@@ -12,7 +12,7 @@ const GlobalStyles = StyleSheet.create({
   cardHorizontal:{
     position: 'absolute',
     padding:20,
-    backgroundColor:'#ffffff70',
+    backgroundColor:'#00000050',
     borderRadius:20,
     left:0,right: 0,bottom:0,top:0
   },

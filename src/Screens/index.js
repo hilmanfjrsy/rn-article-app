@@ -26,7 +26,23 @@ export default function Search({ navigation, route }) {
   const context = useContext(ContextProvider)
   const user = context.user
   const [isLoading, setIsLoading] = useState(false)
+  const [popular, setPopular] = useState([])
+  const [terbaru, setTerbaru] = useState([])
 
+  async function getData() {
+    setIsLoading(true)
+    let { data } = await getRequest('homes')
+
+    if (data) {
+      setPopular(data.popular)
+      setTerbaru(data.new_articles)
+    }
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
   if (isLoading) {
     return <Loading />
   }
@@ -71,9 +87,9 @@ export default function Search({ navigation, route }) {
           </View>
 
           <View>
-            <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, GlobalStyles.p20, { marginTop: 10 }]}>Sorotan</Text>
+            <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, GlobalStyles.p20, { marginTop: 10 }]}>Artikel Popular</Text>
             <FlatList
-              data={[1, 2, 3, 4, 5]}
+              data={popular}
               keyExtractor={(item, index) => index}
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -83,15 +99,15 @@ export default function Search({ navigation, route }) {
 
           <View style={[GlobalStyles.p20, {}]}>
             <View style={[GlobalStyles.spaceBetween, {}]}>
-              <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { marginTop: 10, marginBottom: 20 }]}>Jelajahi Artikel</Text>
+              <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { marginTop: 10, marginBottom: 20 }]}>Artikel Terbaru</Text>
 
               <ButtonPrimary
-                onPress={() => { }}
+                onPress={() => { navigation.navigate('BottomTab', { screen: 'Explore' }) }}
                 text="Lihat Semua"
                 type='label'
               />
             </View>
-            {[1, 2, 3, 4].map((item, index) => <CardVertical item={item} key={index} index={index} />)}
+            {terbaru.map((item, index) => <CardVertical item={item} key={index} index={index} />)}
           </View>
         </View>
       </ScrollView>

@@ -15,18 +15,18 @@ export default function CardHorizontal({ item, index }) {
     >
       <FastImage
         source={{
-          uri: 'https://i.picsum.photos/id/280/400/300.jpg?hmac=2AvK0iDA3KTsfE1gkIrasmqdvvK2eLaWgSe-NMRH3_k'
+          uri: item.img
         }}
         style={{ height: 200, width: '100%', borderRadius: 20 }}
         resizeMode={FastImage.resizeMode.cover}
       />
       <View style={[GlobalStyles.cardHorizontal, { justifyContent: 'space-between' }]}>
         <View style={GlobalStyles.row}>
-          {[1, 2].map((item, index) => <LabelCategory key={index} title={'Teknologi'} />)}
+          <LabelCategory key={index} title={item.total_views} />
         </View>
         <View>
-          <Text numberOfLines={2} style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { marginBottom: 15 }]}>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</Text>
-          <CardOwner size='m' />
+          <Text numberOfLines={2} style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { color:'white',marginBottom: 15 }]}>{item.title}</Text>
+          <CardOwner size='m' user={item.user} />
         </View>
       </View>
     </TouchableOpacity>
