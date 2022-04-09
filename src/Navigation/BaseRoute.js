@@ -7,12 +7,11 @@ import BottomTab from './BottomTab';
 import SplashScreen from '../SplashScreen';
 import Login from '../Screens/Auth/Login';
 import Register from '../Screens/Auth/Register';
-import SearchResult from '../Screens/SearchResult';
 import DetailHotel from '../Screens/DetailHotel';
 
 import EditProfile from '../Screens/Profile/EditProfile';
 import PickAvatar from '../Screens/Profile/PickAvatar';
-import Booking from '../Screens/Booking';
+import Statistik from '../Screens/Statistik';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,12 +37,6 @@ export default function BaseRoute() {
           headerShadowVisible: false,
           headerTitle: ''
         })} />
-        <Stack.Screen name="SearchResult" component={SearchResult} options={({ navigation, route }) => ({
-          headerShown: true,
-          headerTransparent: true,
-          headerShadowVisible: false,
-          title: ''
-        })} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={({ navigation, route }) => ({
           headerShown: true,
           headerShadowVisible: false,
@@ -54,11 +47,11 @@ export default function BaseRoute() {
           headerShadowVisible: false,
           headerTitle: '',
         })} />
-        <Stack.Screen name="Booking" component={Booking} options={({ navigation, route }) => ({
+        <Stack.Screen name="Statistik" component={Statistik} options={({ navigation, route }) => ({
           headerShown: true,
-          headerTransparent: true,
+          headerTransparent: false,
           headerShadowVisible: false,
-          headerTitle: '',
+          headerTitle: 'Statistik',
         })} />
       </Stack.Navigator>
     </NavigationContainer>

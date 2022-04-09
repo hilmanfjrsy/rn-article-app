@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { TextInput, Text, View, TouchableOpacity } from 'react-native';
 import ButtonPrimary from '../../Components/ButtonPrimary';
 import GlobalStyles from '../../Utils/GlobalStyles';
 import GlobalVar from '../../Utils/GlobalVar';
 import FA from 'react-native-vector-icons/FontAwesome';
 import { postRequest, setStorage, showNotification } from '../../Utils/GlobalFunc';
+import { ContextProvider } from '../../Context/BaseContext';
 
 const Login = ({ navigation }) => {
+  const context = useContext(ContextProvider)
   const [email, setEmail] = useState('hilman@mail.com');
   const [password, setPassword] = useState('123456');
   const [isLoading, setIsLoading] = useState(false);
@@ -24,15 +26,14 @@ const Login = ({ navigation }) => {
         "password": password
       }
       let { data } = await postRequest('users/login', form)
-      console.log('login')
       if (data) {
-        console.log(data)
         await setStorage('token', data.token)
         await setStorage('secret', data.secret)
         await setStorage('user', data.user)
+        context.setUser(data.user)
         navigation.reset({
           index: 0,
-          routes: [{ name: 'BottomTab' }],
+          routes: [{ name: 'SplashScreen' }],
         });
       }
       setIsLoading(false)
@@ -42,7 +43,7 @@ const Login = ({ navigation }) => {
   }
 
   return (
-    <View style={[GlobalStyles.container, { justifyContent: 'center' }]}>
+    <View style={[GlobalStyles.container, GlobalStyles.p20, { justifyContent: 'center' }]}>
       <View style={GlobalStyles.header}>
         <Text style={[GlobalStyles.fontPrimary, { color: GlobalVar.primaryColor, fontSize: 30, fontWeight: 'bold' }]}>
           Login

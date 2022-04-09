@@ -1,29 +1,30 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useContext, useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Feat from 'react-native-vector-icons/Feather'
 import Oct from 'react-native-vector-icons/Octicons'
 import GlobalVar from '../Utils/GlobalVar';
 
 import Search from '../Screens';
-import Setting from '../Screens/Setting';
 import NotLogged from '../Components/NotLogged';
 import { getStorage } from '../Utils/GlobalFunc';
 import Profile from '../Screens/Profile';
 import Explore from '../Screens/Explore';
 import { Text } from 'react-native';
+import { ContextProvider } from '../Context/BaseContext';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTab() {
-  const [isSignin, setIsSignin] = useState(false)
+  const context = useContext(ContextProvider)
+  // const [isSignin, setIsSignin] = useState(false)
 
-  async function getStatusLogin() {
-    const token = await getStorage('token')
-    if (token) setIsSignin(true)
-  }
-  useEffect(() => {
-    getStatusLogin()
-  }, [])
+  // async function getStatusLogin() {
+  //   const token = await getStorage('token')
+  //   if (token) setIsSignin(true)
+  // }
+  // useEffect(() => {
+  //   getStatusLogin()
+  // }, [])
   return (
     <Tab.Navigator
       screenOptions={{
@@ -62,7 +63,7 @@ export default function BottomTab() {
             <Feat name={'compass'} color={color} size={20} />
           )
         })} />
-      <Tab.Screen name="Profile" component={Profile}
+      <Tab.Screen name="Profile" component={context.user ? Profile : NotLogged}
         options={({ navigation, route }) => ({
           unmountOnBlur: true,
           headerShown: false,
@@ -77,7 +78,7 @@ export default function BottomTab() {
             <Feat name={'user'} color={color} size={20} />
           )
         })} />
-      <Tab.Screen name="Setting" component={isSignin ? Setting : NotLogged}
+      {/* <Tab.Screen name="Setting" component={isSignin ? Setting : NotLogged}
         options={({ navigation, route }) => ({
           unmountOnBlur: true,
           tabBarLabel: ({ focused, color }) => {
@@ -91,7 +92,7 @@ export default function BottomTab() {
           tabBarIcon: ({ focused, color }) => (
             <Feat name={'menu'} color={color} size={20} />
           )
-        })} />
+        })} /> */}
     </Tab.Navigator>
   );
 }
