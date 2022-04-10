@@ -56,7 +56,7 @@ export default function Explore({ navigation, route }) {
               <Feat name="x-circle" color={GlobalVar.greyColor} size={20} />
             </TouchableOpacity> : null}
           </View>
-          {result.length == 0 && <NotLogged icon='box-open' text='Data tidak ditemukan' showButton={false} />}
+          {result.length == 0 && <NotLogged icon='archive' text='Data tidak ditemukan' showButton={false} />}
           {result.map((item, index) => <CardVertical item={item} index={index} key={index} />)}
         </View>
       </ScrollView>

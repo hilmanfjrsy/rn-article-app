@@ -74,6 +74,7 @@ export default function Search({ navigation, route }) {
                   onPress={() => navigation.navigate('Login')}
                   text="Masuk"
                   type='label'
+                  icon='log-in'
                 />
             }
           </View>
@@ -113,16 +114,4 @@ export default function Search({ navigation, route }) {
       </ScrollView>
     </SafeAreaView>
   );
-
-  function RenderCity({ item, index }) {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          clickSearch(item.destinationId)
-        }}
-        style={[GlobalStyles.cardBody, { marginRight: 10 }]}>
-        <Text style={[GlobalStyles.fontPrimary, {}]}>{item.name}</Text>
-      </TouchableOpacity>
-    );
-  }
 }

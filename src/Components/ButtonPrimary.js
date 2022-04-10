@@ -3,6 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 import { Flow } from 'react-native-animated-spinkit'
 import GlobalVar from '../Utils/GlobalVar';
 import GlobalStyles from '../Utils/GlobalStyles';
+import Feat from 'react-native-vector-icons/Feather'
 
 export default function ButtonPrimary({
   height = 60,
@@ -12,14 +13,17 @@ export default function ButtonPrimary({
   text,
   onPress,
   style = {},
-  type = 'button'
+  type = 'button',
+  color = GlobalVar.primaryColor,
+  icon = null,
+  fontSize = 16
 }) {
   if (type == 'button') {
     return (
       <TouchableOpacity
         onPress={onPress}
         disabled={isLoading}
-        style={[GlobalStyles.row, style, { justifyContent: 'center', alignItems: 'center', backgroundColor: isLoading ? GlobalVar.greyColor : GlobalVar.primaryColor, height, width, borderRadius: isRounded ? 5 : 0 }]}
+        style={[GlobalStyles.row, style, { justifyContent: 'center', alignItems: 'center', backgroundColor: isLoading ? GlobalVar.greyColor : color, height, width, borderRadius: isRounded ? 5 : 0 }]}
       >
         {isLoading ?
           <Flow
@@ -27,19 +31,22 @@ export default function ButtonPrimary({
             size={25}
           />
           :
-          <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 16 }}>{text}</Text>
+          <>
+            {icon ? <Feat name={icon} size={20} color='white' style={{ marginRight: 5 }} /> : null}
+            <Text style={{ fontWeight: 'bold', color: 'white', fontSize }}>{text}</Text>
+          </>
         }
       </TouchableOpacity>
     )
   } else {
     return (
-
       <TouchableOpacity
-        style={[style]}
+        style={[style, GlobalStyles.row]}
         onPress={onPress}
         hitSlop={GlobalVar.hitSlop}
       >
-        <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', color: GlobalVar.primaryColor, fontSize: 14 }]}>{text}</Text>
+        {icon ? <Feat name={icon} size={20} color={color} style={{ marginRight: 5 }} /> : null}
+        <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', color, fontSize: 14 }]}>{text}</Text>
       </TouchableOpacity>
     )
   }
