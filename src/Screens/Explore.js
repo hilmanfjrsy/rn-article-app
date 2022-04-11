@@ -57,7 +57,7 @@ export default function Explore({ navigation, route }) {
             </TouchableOpacity> : null}
           </View>
           {result.length == 0 && <NotLogged icon='archive' text='Data tidak ditemukan' showButton={false} />}
-          {result.map((item, index) => <CardVertical item={item} index={index} key={index} />)}
+          {result.map((item, index) => <CardVertical item={item} index={index} key={index} onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />)}
         </View>
       </ScrollView>
     </SafeAreaView>

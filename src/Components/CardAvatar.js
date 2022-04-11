@@ -40,7 +40,7 @@ export default function CardOwner({ size = 'm', user }) {
           style={{ width: 45, height: 45, borderRadius: 100 }}
           resizeMode={FastImage.resizeMode.cover}
         />
-        <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { color:'white', marginLeft: 15, fontSize: 14 }]} >{user?.name}</Text>
+        <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { marginLeft: 15, fontSize: 14 }]} >{user?.name}</Text>
       </View>
     )
   }

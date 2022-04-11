@@ -10,17 +10,21 @@ import { getRequest, hideEmail, showNotification } from '../../Utils/GlobalFunc'
 import Feat from 'react-native-vector-icons/Feather'
 import ButtonPrimary from '../../Components/ButtonPrimary';
 import CardVertical from '../../Components/CardVertical';
+import Loading from '../../Components/Loading';
 
 export default function Profile({ navigation, route }) {
   const context = useContext(ContextProvider)
   const [profile, setProfile] = useState(null)
   const [myArticles, setMyArticles] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   async function getArticles() {
+    setIsLoading(true)
     let { data } = await getRequest('homes/my-articles')
     if (data) {
       setMyArticles(data.my_articles)
     }
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -47,10 +51,14 @@ export default function Profile({ navigation, route }) {
             </View>
           </View>
         </TouchableOpacity>
-        <View style={[GlobalStyles.p20]}>
-        <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { marginBottom: 20 }]}>Artikel Saya</Text>
-          {myArticles.map((item, index) => <CardVertical item={item} key={index} index={index} statistik={true} navigation={navigation} />)}
-        </View>
+        {isLoading ?
+            <Loading />
+          :
+          <View style={[GlobalStyles.p20]}>
+            <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { marginBottom: 20 }]}>Artikel Saya</Text>
+            {myArticles.map((item, index) => <CardVertical item={item} key={index} index={index} statistik={true} navigation={navigation}  onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />)}
+          </View>
+        }
       </ScrollView>
     </SafeAreaView>
   )

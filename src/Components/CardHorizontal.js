@@ -8,9 +8,10 @@ import LabelCategory from './LabelCategory';
 
 const { width } = Dimensions.get('screen')
 
-export default function CardHorizontal({ item, index }) {
+export default function CardHorizontal({ item, index, onPress = () => { } }) {
   return (
     <TouchableOpacity
+      onPress={onPress}
       style={{ width: width - 100, marginLeft: index == 0 ? 20 : 0, marginRight: 20 }}
     >
       <FastImage
@@ -25,7 +26,7 @@ export default function CardHorizontal({ item, index }) {
           <LabelCategory key={index} title={item.total_views} />
         </View>
         <View>
-          <Text numberOfLines={2} style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { color:'white',marginBottom: 15 }]}>{item.title}</Text>
+          <Text numberOfLines={2} style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { color: 'white', marginBottom: 15 }]}>{item.title}</Text>
           <CardOwner size='m' user={item.user} />
         </View>
       </View>

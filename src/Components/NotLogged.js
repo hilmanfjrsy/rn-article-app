@@ -4,7 +4,7 @@ import GlobalStyles from '../Utils/GlobalStyles';
 import ButtonPrimary from './ButtonPrimary';
 import Feat from 'react-native-vector-icons/Feather'
 
-export default function NotLogged({ navigation, route, icon = 'sign-in-alt', text = 'Anda Belum Login', showButton = true }) {
+export default function NotLogged({ navigation, route, icon = 'log-in', text = 'Anda Belum Login', showButton = true }) {
   return (
     <SafeAreaView style={[GlobalStyles.container, { justifyContent: 'center',alignSelf:'center' }]}>
       <View style={{ alignItems: 'center' }}>

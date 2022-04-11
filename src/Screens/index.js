@@ -94,7 +94,7 @@ export default function Search({ navigation, route }) {
               keyExtractor={(item, index) => index}
               horizontal
               showsHorizontalScrollIndicator={false}
-              renderItem={({ item, index }) => <CardHorizontal item={item} index={index} />}
+              renderItem={({ item, index }) => <CardHorizontal item={item} index={index} onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />}
             />
           </View>
 
@@ -108,7 +108,7 @@ export default function Search({ navigation, route }) {
                 type='label'
               />
             </View>
-            {terbaru.map((item, index) => <CardVertical item={item} key={index} index={index} />)}
+            {terbaru.map((item, index) => <CardVertical item={item} key={index} index={index} onPress={() => navigation.navigate('DetailArticle', { id: item.id })}  />)}
           </View>
         </View>
       </ScrollView>

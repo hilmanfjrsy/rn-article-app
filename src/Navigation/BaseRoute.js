@@ -7,7 +7,7 @@ import BottomTab from './BottomTab';
 import SplashScreen from '../SplashScreen';
 import Login from '../Screens/Auth/Login';
 import Register from '../Screens/Auth/Register';
-import DetailHotel from '../Screens/DetailHotel';
+import DetailArticle from '../Screens/DetailArticle';
 
 import EditProfile from '../Screens/Profile/EditProfile';
 import PickAvatar from '../Screens/Profile/PickAvatar';
@@ -31,7 +31,7 @@ export default function BaseRoute() {
         <Stack.Screen name="Register" component={Register} options={({ navigation, route }) => ({
           headerShown: false
         })} />
-        <Stack.Screen name="DetailHotel" component={DetailHotel} options={({ navigation, route }) => ({
+        <Stack.Screen name="DetailArticle" component={DetailArticle} options={({ navigation, route }) => ({
           headerShown: true,
           headerTransparent: true,
           headerShadowVisible: false,

@@ -10,10 +10,11 @@ import Oct from 'react-native-vector-icons/Octicons'
 import moment from 'moment';
 import ButtonPrimary from './ButtonPrimary';
 
-export default function CardVertical({ item, index, statistik = false, navigation }) {
+export default function CardVertical({ item, index, statistik = false, navigation, onPress = () => { } }) {
   return (
     <>
       <TouchableOpacity
+        onPress={onPress}
         style={[GlobalStyles.spaceBetween, { marginBottom: 15, backgroundColor: 'white', padding: 10, borderRadius: 10 }]}
       >
         <View style={{ flex: 1, marginRight: 10 }}>
