@@ -1,19 +1,22 @@
 import React, { useContext, useState } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import ButtonPrimary from '../../Components/ButtonPrimary';
 import RenderTextHorizontal from '../../Components/RenderTextHorizontal';
 import { ContextProvider } from '../../Context/BaseContext';
 import { hideEmail, postRequest, setStorage, showNotification } from '../../Utils/GlobalFunc';
 import GlobalStyles from '../../Utils/GlobalStyles';
+import GlobalVar from '../../Utils/GlobalVar';
 
 export default function EditProfile({ navigation, route }) {
   const context = useContext(ContextProvider)
   const profile = context.user
   const [fullName, setFullName] = useState(profile?.name)
-  const [description, setDescription] = useState(profile?.description)
+  const [description, setDescription] = useState(profile?.description || '')
   const [idAvatar, setIdAvatar] = useState(profile?.avatar_id)
   const [avatar, setAvatar] = useState(profile?.avatar.avatar)
+  const [birthdate, setBirthdate] = useState(profile?.birthdate)
+  const [gender, setGender] = useState(profile?.gender)
   const [isLoading, setIsLoading] = useState(false)
 
   return (
@@ -54,6 +57,25 @@ export default function EditProfile({ navigation, route }) {
             onChangeText={(v) => setDescription(v)}
             valueTextInput={description}
           />
+          <RenderTextHorizontal
+            disabled
+            dateInput
+            text={'Tanggal Lahir'}
+            onChangeText={(v) => { setBirthdate(v) }}
+            valueTextInput={birthdate}
+          />
+          <View style={[GlobalStyles.spaceBetween, { marginTop: 10 }]}>
+            <View style={[GlobalStyles.cardBody, { width: '48%', borderWidth: gender == "L" ? 2 : 1, borderColor: gender == 'L' ? GlobalVar.primaryColor : GlobalVar.greyColor }]}>
+              <TouchableOpacity style={{ height: 50, justifyContent: 'center' }} onPress={() => setGender('L')}>
+                <Text style={[GlobalStyles.fontSecondary, { fontSize: 14, color: gender == 'L' ? GlobalVar.primaryColor : GlobalVar.greyColor }]}>Pria</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={[GlobalStyles.cardBody, { width: '48%', borderWidth: gender == 'P' ? 2 : 1, borderColor:  gender == 'P' ? GlobalVar.primaryColor : GlobalVar.greyColor }]}>
+              <TouchableOpacity style={{ height: 50, justifyContent: 'center' }} onPress={() => setGender('P')}>
+                <Text style={[GlobalStyles.fontSecondary, { fontSize: 14, color: gender == 'P' ? GlobalVar.primaryColor : GlobalVar.greyColor }]}>Wanita</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           <ButtonPrimary
             isLoading={isLoading}
             text={'Simpan Perubahan'}
@@ -70,7 +92,9 @@ export default function EditProfile({ navigation, route }) {
     let newUpdate = {
       name: fullName,
       avatar_id: idAvatar,
-      description
+      description,
+      gender,
+      birthdate
     }
 
     let { data } = await postRequest('users/updateProfile', newUpdate)

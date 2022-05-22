@@ -119,7 +119,7 @@ export default function Profile({ navigation, route }) {
               </View>
 
               <View style={{ alignItems: 'center' }}>
-                <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>{secondsToHms(profile ? profile.sum_duration : 0)}</Text>
+                <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>{profile ? secondsToHms(profile.sum_duration || 0) : 0}</Text>
                 <Text style={[GlobalStyles.fontSecondary, {}]}>Total tayang</Text>
               </View>
 

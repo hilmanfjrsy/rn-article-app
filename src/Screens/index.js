@@ -17,7 +17,7 @@ import moment from 'moment';
 import Loading from '../Components/Loading';
 import { ContextProvider } from '../Context/BaseContext';
 
-import Oct from 'react-native-vector-icons/Octicons'
+import logo from '../Assets/logo.png'
 import CardHorizontal from '../Components/CardHorizontal';
 import CardVertical from '../Components/CardVertical';
 import FastImage from 'react-native-fast-image';
@@ -52,8 +52,11 @@ export default function Search({ navigation, route }) {
         <View style={[GlobalStyles.container, {}]}>
           <View style={[GlobalStyles.spaceBetween, GlobalStyles.p20]}>
             <View style={[GlobalStyles.spaceBetween]}>
-              <Oct name='dot-fill' size={20} color={GlobalVar.blackColor} />
-              <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle]}>  Adiwidia</Text>
+              <FastImage
+                source={logo}
+                style={{ width: 40, height: 40 }}
+                resizeMode='contain'
+              />
             </View>
             {
               user ?
@@ -108,7 +111,7 @@ export default function Search({ navigation, route }) {
                 type='label'
               />
             </View>
-            {terbaru.map((item, index) => <CardVertical item={item} key={index} index={index} onPress={() => navigation.navigate('DetailArticle', { id: item.id })}  />)}
+            {terbaru.map((item, index) => <CardVertical item={item} key={index} index={index} onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />)}
           </View>
         </View>
       </ScrollView>
