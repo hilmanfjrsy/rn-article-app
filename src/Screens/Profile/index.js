@@ -8,6 +8,7 @@ import FastImage from 'react-native-fast-image';
 import { getRequest, hideEmail, showNotification } from '../../Utils/GlobalFunc';
 
 import Feat from 'react-native-vector-icons/Feather'
+import FA from 'react-native-vector-icons/FontAwesome'
 import ButtonPrimary from '../../Components/ButtonPrimary';
 import CardVertical from '../../Components/CardVertical';
 import Loading from '../../Components/Loading';
@@ -39,6 +40,23 @@ export default function Profile({ navigation, route }) {
     <SafeAreaView style={[GlobalStyles.container, { padding: 0, flex: 1 }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <RenderTop />
+        {profile && <View style={[GlobalStyles.spaceBetween, GlobalStyles.cardBody, { marginHorizontal: 20, }]}>
+          <View style={[GlobalStyles.row, { marginVertical: 10, flex: 0.45 }]}>
+            <FA name="dollar" size={15} color={profile.status_monetize ? 'green' : GlobalVar.greyColor} />
+            <View style={{ marginLeft: 5 }}>
+              <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { fontSize: 14 }]}>Status Monetisasi</Text>
+              <Text>{profile.status_monetize ? 'Aktif' : 'Tidak Aktif'}</Text>
+            </View>
+          </View>
+          <View style={{ borderLeftColor: GlobalVar.greyColor, borderLeftWidth: 0.5, height: '100%' }} />
+          <View style={[GlobalStyles.row, { marginVertical: 10, flex: 0.45 }]}>
+            <FA name="money" size={15} color={profile.income ? 'green' : GlobalVar.greyColor} />
+            <View style={{ marginLeft: 5 }}>
+              <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { fontSize: 14 }]}>Total Pendapatan</Text>
+              <Text>Rp {priceSeparator(profile.income)}</Text>
+            </View>
+          </View>
+        </View>}
         <TouchableOpacity
           onPress={() => navigation.navigate('Statistik')}
           style={[GlobalStyles.cardBody, { marginHorizontal: 20 }]}
@@ -52,11 +70,11 @@ export default function Profile({ navigation, route }) {
           </View>
         </TouchableOpacity>
         {isLoading ?
-            <Loading />
+          <Loading />
           :
           <View style={[GlobalStyles.p20]}>
             <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { marginBottom: 20 }]}>Artikel Saya</Text>
-            {myArticles.map((item, index) => <CardVertical item={item} key={index} index={index} statistik={true} navigation={navigation}  onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />)}
+            {myArticles.map((item, index) => <CardVertical item={item} key={index} index={index} statistik={true} navigation={navigation} onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />)}
           </View>
         }
       </ScrollView>
@@ -148,5 +166,10 @@ export default function Profile({ navigation, route }) {
         }
       ]
     );
+  }
+
+  function priceSeparator(x) {
+    x = x || 0
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
   }
 }

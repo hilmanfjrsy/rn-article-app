@@ -71,7 +71,7 @@ export default function BottomTab() {
             if (focused) {
               return <Oct name={'dot-fill'} color={color} size={10} style={{ marginBottom: 5 }} />
             } else {
-              return <Text style={{ fontSize: 10, color, marginBottom: 5 }}>Collection</Text>
+              return <Text style={{ fontSize: 10, color, marginBottom: 5 }}>Profile</Text>
             }
           },
           tabBarIcon: ({ focused, color }) => (
