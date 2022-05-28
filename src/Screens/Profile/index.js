@@ -5,7 +5,7 @@ import GlobalStyles from '../../Utils/GlobalStyles';
 import GlobalVar from '../../Utils/GlobalVar';
 import { ContextProvider } from '../../Context/BaseContext';
 import FastImage from 'react-native-fast-image';
-import { getRequest, hideEmail, showNotification } from '../../Utils/GlobalFunc';
+import { getRequest, hideEmail, setStorage, showNotification } from '../../Utils/GlobalFunc';
 
 import Feat from 'react-native-vector-icons/Feather'
 import FA from 'react-native-vector-icons/FontAwesome'
@@ -24,13 +24,18 @@ export default function Profile({ navigation, route }) {
     let { data } = await getRequest('homes/my-articles')
     if (data) {
       setMyArticles(data.my_articles)
+      context.setUser(data.checkUsers)
+      await setStorage('user',data.checkUsers)
     }
     setIsLoading(false)
   }
 
   useEffect(() => {
-    getArticles()
-  }, [])
+    let unsubs = navigation.addListener('focus',()=>{
+      getArticles()
+    })
+    return unsubs
+  }, [navigation])
 
   useEffect(() => {
     setProfile(Object.create(context.user))
@@ -74,7 +79,7 @@ export default function Profile({ navigation, route }) {
           :
           <View style={[GlobalStyles.p20]}>
             <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { marginBottom: 20 }]}>Artikel Saya</Text>
-            {myArticles.map((item, index) => <CardVertical item={item} key={index} index={index} statistik={true} navigation={navigation} onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />)}
+            {myArticles.map((item, index) => <CardVertical item={item} key={index} index={index} statistik={true} navigation={navigation} onPress={() => navigation.navigate('DetailArticle', { id: item.id })} getArticles={getArticles} />)}
           </View>
         }
       </ScrollView>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, Dimensions, View } from 'react-native';
+import { TouchableOpacity, Text, Dimensions, View, Alert } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import GlobalStyles from '../Utils/GlobalStyles';
 import GlobalVar from '../Utils/GlobalVar';
@@ -9,8 +9,10 @@ import LabelCategory from './LabelCategory';
 import Oct from 'react-native-vector-icons/Octicons'
 import moment from 'moment';
 import ButtonPrimary from './ButtonPrimary';
+import { getRequest, showNotification } from '../Utils/GlobalFunc';
 
-export default function CardVertical({ item, index, statistik = false, navigation, onPress = () => { } }) {
+const { width } = Dimensions.get('screen')
+export default function CardVertical({ item, index, getArticles = () => { }, statistik = false, navigation, onPress = () => { } }) {
   return (
     <>
       <TouchableOpacity
@@ -39,14 +41,65 @@ export default function CardVertical({ item, index, statistik = false, navigatio
           resizeMode={FastImage.resizeMode.cover}
         />
       </TouchableOpacity>
-      {statistik ? <ButtonPrimary
-        style={{ marginBottom: 20, marginTop: -10 }}
-        onPress={() => navigation.navigate('Statistik', { article_id: item.id })}
-        fontSize={12}
-        icon={'activity'}
-        text="Lihat Statistik"
-        height={30}
-      /> : null}
+      {
+        statistik ?
+          <View style={[GlobalStyles.spaceBetween, {}]}>
+            <ButtonPrimary
+              style={{ marginBottom: 20, marginTop: -10 }}
+              onPress={() => navigation.navigate('Statistik', { article_id: item.id })}
+              fontSize={12}
+              width={(width - 50) / 2}
+              icon={'activity'}
+              text="Lihat Statistik"
+              height={30}
+            />
+            <ButtonPrimary
+              style={{ marginBottom: 20, marginTop: -10 }}
+              onPress={() => navigation.navigate('EditArticle', { article: item })}
+              fontSize={12}
+              width={(width - 50) / 3}
+              icon={'edit'}
+              color="orange"
+              text="Edit Artikel"
+              height={30}
+            />
+            <ButtonPrimary
+              style={{ marginBottom: 20, marginTop: -10 }}
+              onPress={() => deleteArticle(item.id)}
+              fontSize={12}
+              color={'firebrick'}
+              width={(width - 50) / 6}
+              icon={'trash'}
+              height={30}
+            />
+          </View>
+          :
+          null
+      }
     </>
   )
+
+  async function deleteArticle(id) {
+    Alert.alert(
+      'Konfirmasi',
+      "Apakah Anda yakin?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "OK", onPress: async () => {
+            let { data } = await getRequest(`articles/delete/${id}`)
+
+            if (data) {
+              showNotification('success', "Berhasil", "Artikel telah dihapus")
+              getArticles()
+            }
+          }
+        }
+      ]
+    )
+  }
 }

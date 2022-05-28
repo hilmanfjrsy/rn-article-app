@@ -13,6 +13,7 @@ import EditProfile from '../Screens/Profile/EditProfile';
 import PickAvatar from '../Screens/Profile/PickAvatar';
 import Statistik from '../Screens/Statistik';
 import Comments from '../Screens/Comments';
+import EditArticle from '../Screens/EditArticle';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,10 +28,14 @@ export default function BaseRoute() {
           headerShown: false
         })} />
         <Stack.Screen name="Login" component={Login} options={({ navigation, route }) => ({
-          headerShown: false
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTitle: '',
         })} />
         <Stack.Screen name="Register" component={Register} options={({ navigation, route }) => ({
-          headerShown: false
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTitle: '',
         })} />
         <Stack.Screen name="DetailArticle" component={DetailArticle} options={({ navigation, route }) => ({
           headerShown: true,
@@ -59,6 +64,11 @@ export default function BaseRoute() {
           headerTransparent: false,
           headerShadowVisible: false,
           headerTitle: 'Komentar',
+        })} />
+        <Stack.Screen name="EditArticle" component={EditArticle} options={({ navigation, route }) => ({
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTitle: '',
         })} />
       </Stack.Navigator>
     </NavigationContainer>

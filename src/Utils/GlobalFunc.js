@@ -42,7 +42,10 @@ export async function getRequest(path) {
       if (error.response.status == 400) {
         title = "Harap cek kembali"
       } else if (error.response.status == 401) {
-        return refreshToken()
+        refreshToken().then(async item => {
+          return await getRequest(path)
+        })
+
       }
       console.log(error.response.status);
       console.log(error.response.headers);
@@ -80,7 +83,9 @@ export async function postRequest(path, data) {
       if (error.response.status == 400) {
         title = "Harap cek kembali"
       } else if (error.response.status == 401) {
-        return refreshToken()
+        refreshToken().then(async item => {
+          return await postRequest(path, data)
+        })
       }
 
       message = error.response.data.message

@@ -134,15 +134,19 @@ export default function CreateArticle({ navigation, route }) {
 
   async function saveArticle() {
     setIsLoading(true)
-    let form = {
-      contents,
-      title,
-      img: image
-    }
-    let { data } = await postRequest('articles/create', form)
-    if (data) {
-      showNotification('success', "Berhasil", "Artikel telah dibuat")
-      navigation.navigate('BottomTab', { screen: 'Profile' })
+    if (contents && title && image) {
+      let form = {
+        contents,
+        title,
+        img: image
+      }
+      let { data } = await postRequest('articles/create', form)
+      if (data) {
+        showNotification('success', "Berhasil", "Artikel telah dibuat")
+        navigation.navigate('BottomTab', { screen: 'Profile' })
+      }
+    }else{
+      showNotification('info', "Lengkapi Semua Form", "Harap lengkapi semua form!")
     }
     setIsLoading(false)
   }
