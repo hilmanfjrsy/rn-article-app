@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
 import axios from 'axios';
 import GlobalVar from "./GlobalVar";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import FA from 'react-native-vector-icons/FontAwesome'
-import GlobalStyles from './GlobalStyles';
 import Toast from 'react-native-toast-message';
 
 export async function refreshToken() {
+  console.log('REFRESH TOKEN')
   let secret = await getStorage('secret')
   let form = {
     secret

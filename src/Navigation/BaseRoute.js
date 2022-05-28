@@ -15,6 +15,7 @@ import Statistik from '../Screens/Statistik';
 import Comments from '../Screens/Comments';
 import EditArticle from '../Screens/EditArticle';
 import About from '../Screens/About';
+import FAQ from '../Screens/FAQ';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,14 @@ export default function BaseRoute() {
           headerShown: true,
           headerShadowVisible: false,
           headerTransparent: true,
+          headerTitle: '',
+        })} />
+        <Stack.Screen name="Faq" component={FAQ} options={({ navigation, route }) => ({
+          headerShown: true,
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: '#f4f4f4'
+          },
           headerTitle: '',
         })} />
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={({ navigation, route }) => ({

@@ -136,7 +136,7 @@ export default function Profile({ navigation, route }) {
           </View>
         </View>
         <TouchableOpacity
-          onPress={() => { }}
+          onPress={() => { navigation.navigate('Faq') }}
           hitSlop={GlobalVar.hitSlop}
           style={[GlobalStyles.spaceBetween, { paddingVertical: 15, borderBottomWidth: 0.5, borderBottomColor: GlobalVar.greyColor }]}>
           <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>FAQ</Text>
