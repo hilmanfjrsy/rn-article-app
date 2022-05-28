@@ -14,6 +14,7 @@ import PickAvatar from '../Screens/Profile/PickAvatar';
 import Statistik from '../Screens/Statistik';
 import Comments from '../Screens/Comments';
 import EditArticle from '../Screens/EditArticle';
+import About from '../Screens/About';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,17 +25,25 @@ export default function BaseRoute() {
         <Stack.Screen name="BottomTab" component={BottomTab} options={({ navigation, route }) => ({
           headerShown: false
         })} />
+        <Stack.Screen name="About" component={About} options={({ navigation, route }) => ({
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTransparent: true,
+          headerTitle: '',
+        })} />
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={({ navigation, route }) => ({
           headerShown: false
         })} />
         <Stack.Screen name="Login" component={Login} options={({ navigation, route }) => ({
           headerShown: true,
           headerShadowVisible: false,
+          headerTransparent: true,
           headerTitle: '',
         })} />
         <Stack.Screen name="Register" component={Register} options={({ navigation, route }) => ({
           headerShown: true,
           headerShadowVisible: false,
+          headerTransparent: true,
           headerTitle: '',
         })} />
         <Stack.Screen name="DetailArticle" component={DetailArticle} options={({ navigation, route }) => ({

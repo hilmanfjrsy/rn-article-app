@@ -78,7 +78,7 @@ export default function EditArticle({ navigation, route }) {
         navigation.goBack()
       }
     } else {
-      showNotification('info', "Lengkapi Semua Form", "Harap lengkapi semua form!")
+      showNotification('error', "Form tidak boleh kosong", "Harap periksa kembali semua form")
     }
     setIsLoading(false)
   }

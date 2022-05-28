@@ -25,13 +25,13 @@ export default function Profile({ navigation, route }) {
     if (data) {
       setMyArticles(data.my_articles)
       context.setUser(data.checkUsers)
-      await setStorage('user',data.checkUsers)
+      await setStorage('user', data.checkUsers)
     }
     setIsLoading(false)
   }
 
   useEffect(() => {
-    let unsubs = navigation.addListener('focus',()=>{
+    let unsubs = navigation.addListener('focus', () => {
       getArticles()
     })
     return unsubs
@@ -97,7 +97,7 @@ export default function Profile({ navigation, route }) {
           type='label'
           icon='log-out'
         />
-        <View style={[GlobalStyles.row, { marginTop: 20 }]}>
+        <View style={[GlobalStyles.row, { marginTop: 20, borderBottomWidth: 0.5, borderBottomColor: GlobalVar.greyColor, paddingBottom: 20 }]}>
           <View style={{ alignItems: 'center' }}>
             <FastImage
               source={{
@@ -135,6 +135,23 @@ export default function Profile({ navigation, route }) {
             </View>
           </View>
         </View>
+        <TouchableOpacity
+          onPress={() => { }}
+          hitSlop={GlobalVar.hitSlop}
+          style={[GlobalStyles.spaceBetween, { paddingVertical: 15, borderBottomWidth: 0.5, borderBottomColor: GlobalVar.greyColor }]}>
+          <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>FAQ</Text>
+          <Feat size={20} name="chevron-right" color={GlobalVar.greyColor} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => { navigation.navigate('About') }}
+          hitSlop={GlobalVar.hitSlop}
+          style={[GlobalStyles.spaceBetween, { paddingVertical: 15, borderBottomWidth: 0.5, borderBottomColor: GlobalVar.greyColor }]}>
+          <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>Tentang Aplikasi</Text>
+          <View style={[GlobalStyles.row, {}]}>
+            <Text style={[GlobalStyles.fontSecondary, {}]}>v1.0</Text>
+            <Feat size={20} name="chevron-right" color={GlobalVar.greyColor} />
+          </View>
+        </TouchableOpacity>
       </View>
     )
   }
