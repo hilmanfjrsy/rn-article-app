@@ -9,6 +9,7 @@ import RenderHtml from 'react-native-render-html';
 import GlobalVar from '../Utils/GlobalVar';
 import LabelCategory from '../Components/LabelCategory';
 import Ion from 'react-native-vector-icons/Ionicons'
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const tagsStyles = {
@@ -32,24 +33,28 @@ export default function DetailArticle({ navigation, route }) {
     setIsLoading(false)
   }
 
-  async function getViews(idUserViews = '') {
-    let { data } = await getRequest(`views/visit-articles?id=${idUserViews}&article_id=${id}`)
-    if (data.data) {
-      return data.data.id
-    }
-  }
-
   useEffect(() => {
     getDetails()
-    let idUserViews = null
-    navigation.addListener('focus', async () => {
-      idUserViews = await getViews()
-    })
-    navigation.addListener('blur', () => {
-      getViews(idUserViews)
-    })
-    // return blur
   }, [])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let idView = 0;
+
+      const getViews = async (idViews = '') => {
+
+        let { data } = await getRequest(`views/visit-articles?id=${idViews}&article_id=${id}`)
+        if (data.data) {
+          idView = data.data.id
+        }
+      };
+      getViews()
+
+      return () => {
+        getViews(idView)
+      };
+    }, [])
+  );
 
   if (isLoading) {
     return <Loading />
@@ -71,10 +76,11 @@ export default function DetailArticle({ navigation, route }) {
           <Text style={[GlobalStyles.fontPrimary, { fontSize: 16, marginBottom: 10, fontWeight: 'bold' }]}>{detail?.title}</Text>
           <CardAvatar user={detail?.user} size="l" />
           <TouchableOpacity
+            onPress={() => navigation.navigate('Comments', { id })}
             hitSlop={GlobalVar.hitSlop}
             style={[GlobalStyles.row, { marginTop: 15 }]}>
             <Ion name='chatbubble-outline' size={20} color={GlobalVar.greyColor} />
-            <Text style={[GlobalStyles.fontSecondary, { marginLeft: 5 }]}>20</Text>
+            <Text style={[GlobalStyles.fontSecondary, { marginLeft: 5 }]}>{detail?.total_comment}</Text>
           </TouchableOpacity>
         </View>
 

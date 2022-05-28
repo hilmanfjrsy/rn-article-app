@@ -12,6 +12,7 @@ import DetailArticle from '../Screens/DetailArticle';
 import EditProfile from '../Screens/Profile/EditProfile';
 import PickAvatar from '../Screens/Profile/PickAvatar';
 import Statistik from '../Screens/Statistik';
+import Comments from '../Screens/Comments';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,12 @@ export default function BaseRoute() {
           headerTransparent: false,
           headerShadowVisible: false,
           headerTitle: 'Statistik',
+        })} />
+        <Stack.Screen name="Comments" component={Comments} options={({ navigation, route }) => ({
+          headerShown: true,
+          headerTransparent: false,
+          headerShadowVisible: false,
+          headerTitle: 'Komentar',
         })} />
       </Stack.Navigator>
     </NavigationContainer>

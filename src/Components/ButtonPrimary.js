@@ -23,7 +23,7 @@ export default function ButtonPrimary({
       <TouchableOpacity
         onPress={onPress}
         disabled={isLoading}
-        style={[GlobalStyles.row, style, { justifyContent: 'center', alignItems: 'center', backgroundColor: isLoading ? GlobalVar.greyColor : color, height, width, borderRadius: isRounded ? 5 : 0 }]}
+        style={[GlobalStyles.row, { justifyContent: 'center', alignItems: 'center', backgroundColor: isLoading ? GlobalVar.greyColor : color, height, width, borderRadius: isRounded ? 5 : 0 }, style]}
       >
         {isLoading ?
           <Flow
@@ -32,8 +32,8 @@ export default function ButtonPrimary({
           />
           :
           <>
-            {icon ? <Feat name={icon} size={20} color='white' style={{ marginRight: 5 }} /> : null}
-            <Text style={{ fontWeight: 'bold', color: 'white', fontSize }}>{text}</Text>
+            {icon ? <Feat name={icon} size={20} color='white' /> : null}
+            {text ? <Text style={{ fontWeight: 'bold', color: 'white', fontSize, marginLeft: 5 }}>{text}</Text> : null}
           </>
         }
       </TouchableOpacity>

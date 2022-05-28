@@ -11,6 +11,7 @@ import Profile from '../Screens/Profile';
 import Explore from '../Screens/Explore';
 import { Text } from 'react-native';
 import { ContextProvider } from '../Context/BaseContext';
+import CreateArticle from '../Screens/CreateArticle';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,6 +29,7 @@ export default function BottomTab() {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarHideOnKeyboard:true,
         tabBarStyle: { minHeight: 60 },
         tabBarActiveTintColor: GlobalVar.primaryColor,
       }}
@@ -63,6 +65,21 @@ export default function BottomTab() {
             <Feat name={'compass'} color={color} size={20} />
           )
         })} />
+      <Tab.Screen name="CreateArticle" component={context.user ? CreateArticle : NotLogged}
+        options={({ navigation, route }) => ({
+          unmountOnBlur: true,
+          tabBarLabel: ({ focused, color }) => {
+            if (focused) {
+              return <Oct name={'dot-fill'} color={color} size={10} style={{ marginBottom: 5 }} />
+            } else {
+              return <Text style={{ fontSize: 10, color, marginBottom: 5 }}>Buat Artikel</Text>
+            }
+          },
+          headerShown: false,
+          tabBarIcon: ({ focused, color }) => (
+            <Feat name={'plus-circle'} color={color} size={20} />
+          )
+        })} />
       <Tab.Screen name="Profile" component={context.user ? Profile : NotLogged}
         options={({ navigation, route }) => ({
           unmountOnBlur: true,
@@ -78,21 +95,6 @@ export default function BottomTab() {
             <Feat name={'user'} color={color} size={20} />
           )
         })} />
-      {/* <Tab.Screen name="Setting" component={isSignin ? Setting : NotLogged}
-        options={({ navigation, route }) => ({
-          unmountOnBlur: true,
-          tabBarLabel: ({ focused, color }) => {
-            if (focused) {
-              return <Oct name={'dot-fill'} color={color} size={10} style={{ marginBottom: 5 }} />
-            } else {
-              return <Text style={{ fontSize: 10, color, marginBottom: 5 }}>Menu</Text>
-            }
-          },
-          headerShown: false,
-          tabBarIcon: ({ focused, color }) => (
-            <Feat name={'menu'} color={color} size={20} />
-          )
-        })} /> */}
     </Tab.Navigator>
   );
 }
