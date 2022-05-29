@@ -12,23 +12,27 @@ export default function NotLogged({ navigation, route, icon = 'log-in', text = '
       <View style={{ alignItems: 'center' }}>
         <Feat name={icon} size={80} color={'grey'} />
         <Text style={[GlobalStyles.fontSecondary, { fontSize: 14, marginBottom: 20, marginTop: 30 }]}>{text}</Text>
-        {showButton && <ButtonPrimary onPress={() => navigation.navigate('Login')} text={'Login'} />}
+        {showButton &&
+          <>
+            <ButtonPrimary onPress={() => navigation.navigate('Login')} text={'Login'} />
 
-        <View style={[GlobalStyles.row, { marginTop: 80 }]}>
-          <TouchableOpacity
-            hitSlop={GlobalVar.hitSlop}
-            onPress={() => { }}
-          >
-            <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>FAQ</Text>
-          </TouchableOpacity>
-          <Ent size={15} color={GlobalVar.greyColor} name='dot-single' style={{ marginHorizontal: 10 }} />
-          <TouchableOpacity
-            hitSlop={GlobalVar.hitSlop}
-            onPress={() => { navigation.navigate('About') }}
-          >
-            <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>Tentang Aplikasi</Text>
-          </TouchableOpacity>
-        </View>
+            <View style={[GlobalStyles.row, { marginTop: 80 }]}>
+              <TouchableOpacity
+                hitSlop={GlobalVar.hitSlop}
+                onPress={() => { }}
+              >
+                <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>FAQ</Text>
+              </TouchableOpacity>
+              <Ent size={15} color={GlobalVar.greyColor} name='dot-single' style={{ marginHorizontal: 10 }} />
+              <TouchableOpacity
+                hitSlop={GlobalVar.hitSlop}
+                onPress={() => { navigation.navigate('About') }}
+              >
+                <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>Tentang Aplikasi</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        }
       </View>
     </SafeAreaView>
   )

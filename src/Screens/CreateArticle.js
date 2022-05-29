@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import { Dimensions, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import WebView from 'react-native-webview';
@@ -7,28 +7,44 @@ import GlobalStyles from '../Utils/GlobalStyles';
 import GlobalVar from '../Utils/GlobalVar';
 import Feat from 'react-native-vector-icons/Feather'
 import FastImage from 'react-native-fast-image';
-import { postRequest, showNotification } from '../Utils/GlobalFunc';
+import { getRequest, postRequest, showNotification } from '../Utils/GlobalFunc';
+import { Picker } from '@react-native-picker/picker';
 
 const { width } = Dimensions.get('screen')
 export default function CreateArticle({ navigation, route }) {
   const [contents, setContents] = useState('')
   const [image, setImage] = useState('')
   const [title, setTitle] = useState('')
+  const [categoryId, setCategoryId] = useState('')
+  const [category, setCategory] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   var webView = createRef()
+
+  async function getCategory() {
+    let { data } = await getRequest('homes/all-category')
+
+    if (data) {
+      setCategory(data.category)
+    }
+  }
+
+  useEffect(() => {
+    getCategory()
+  }, [])
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
       <View style={[GlobalStyles.container, GlobalStyles.p20, { backgroundColor: 'white' }]}>
         <Text style={[GlobalStyles.fontTitle, GlobalStyles.fontPrimary, { marginBottom: 10 }]}>Judul Artikel</Text>
         <TextInput
-          style={{ borderWidth: 1, borderColor: GlobalVar.greyColor, paddingHorizontal: 15, borderRadius: 5 }}
+          style={{ borderWidth: 1, borderColor: GlobalVar.greyColor, paddingHorizontal: 15, borderRadius: 10 }}
           autoCapitalize='none'
           value={title}
           placeholder="Judul"
           onChangeText={v => setTitle(v)}
         />
 
-        <Text style={[GlobalStyles.fontTitle, GlobalStyles.fontPrimary, { marginVertical: 10 }]}>Sampul</Text>
+        <Text style={[GlobalStyles.fontTitle, GlobalStyles.fontPrimary, { marginVertical: 10, marginTop: 20 }]}>Sampul</Text>
         <TouchableOpacity onPress={openGallery}>
           {
             image ?
@@ -45,7 +61,21 @@ export default function CreateArticle({ navigation, route }) {
           }
         </TouchableOpacity>
 
-        <Text style={[GlobalStyles.fontTitle, GlobalStyles.fontPrimary, { marginVertical: 10 }]}>Konten</Text>
+        <Text style={[GlobalStyles.fontTitle, GlobalStyles.fontPrimary, { marginVertical: 10, marginTop: 20 }]}>Kategori</Text>
+        <View style={{ borderRadius: 10, borderWidth: 1, borderColor: 'grey' }}>
+          <Picker
+            style={{ color: 'grey' }}
+            selectedValue={categoryId}
+            onValueChange={(itemValue, itemIndex) =>
+              setCategoryId(itemValue)
+            }
+          >
+            <Picker.Item label="- Pilih Kategori -" value="" />
+            {category.map(item => <Picker.Item key={item.id} label={item.title} value={item.id} />)}
+          </Picker>
+        </View>
+
+        <Text style={[GlobalStyles.fontTitle, GlobalStyles.fontPrimary, { marginVertical: 10, marginTop: 20 }]}>Konten</Text>
         <View style={{ height: 350, }}>
           <WebView
             ref={w => webView = w}
@@ -53,7 +83,6 @@ export default function CreateArticle({ navigation, route }) {
             scalesPageToFit={true}
             onMessage={async (e) => {
               let tex = JSON.parse(e.nativeEvent.data)
-              console.log(tex.data)
               setContents(tex.data)
             }}
             source={{
@@ -134,18 +163,19 @@ export default function CreateArticle({ navigation, route }) {
 
   async function saveArticle() {
     setIsLoading(true)
-    if (contents && title && image) {
+    if (contents && title && image && categoryId) {
       let form = {
         contents,
         title,
-        img: image
+        img: image,
+        category_id: categoryId
       }
       let { data } = await postRequest('articles/create', form)
       if (data) {
         showNotification('success', "Berhasil", "Artikel telah dibuat")
         navigation.navigate('BottomTab', { screen: 'Profile' })
       }
-    }else{
+    } else {
       showNotification('error', "Form tidak boleh kosong", "Harap periksa kembali semua form")
     }
     setIsLoading(false)

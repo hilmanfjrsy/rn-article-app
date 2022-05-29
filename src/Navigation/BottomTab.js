@@ -4,7 +4,7 @@ import Feat from 'react-native-vector-icons/Feather'
 import Oct from 'react-native-vector-icons/Octicons'
 import GlobalVar from '../Utils/GlobalVar';
 
-import Search from '../Screens';
+import Home from '../Screens';
 import NotLogged from '../Components/NotLogged';
 import { getStorage } from '../Utils/GlobalFunc';
 import Profile from '../Screens/Profile';
@@ -35,9 +35,8 @@ export default function BottomTab() {
       }}
 
     >
-      <Tab.Screen name="Search" component={Search}
+      <Tab.Screen name="Home" component={Home}
         options={({ navigation, route }) => ({
-          unmountOnBlur: true,
           tabBarLabel: ({ focused, color }) => {
             if (focused) {
               return <Oct name={'dot-fill'} color={color} size={10} style={{ marginBottom: 5 }} />
@@ -52,7 +51,6 @@ export default function BottomTab() {
         })} />
       <Tab.Screen name="Explore" component={Explore}
         options={({ navigation, route }) => ({
-          unmountOnBlur: true,
           tabBarLabel: ({ focused, color }) => {
             if (focused) {
               return <Oct name={'dot-fill'} color={color} size={10} style={{ marginBottom: 5 }} />
@@ -67,7 +65,6 @@ export default function BottomTab() {
         })} />
       <Tab.Screen name="CreateArticle" component={context.user ? CreateArticle : NotLogged}
         options={({ navigation, route }) => ({
-          unmountOnBlur: true,
           tabBarLabel: ({ focused, color }) => {
             if (focused) {
               return <Oct name={'dot-fill'} color={color} size={10} style={{ marginBottom: 5 }} />

@@ -45,7 +45,7 @@ export default function Comments({ navigation, route }) {
       {context.user && <View style={[GlobalStyles.p20, GlobalStyles.row, { borderTopColor: GlobalVar.greyColor + 50, borderTopWidth: 0.5 }]}>
         <TextInput
           value={comment}
-          editable={isSendComment}
+          editable={!isSendComment}
           placeholder='Ketik disini..'
           style={{ height: 60, backgroundColor: '#f4f4f4', paddingHorizontal: 10, borderRadius: 10, flex: 1 }}
           onChangeText={(v) => { setComment(v) }}
@@ -85,7 +85,6 @@ export default function Comments({ navigation, route }) {
   }
 
   async function sendKomentar() {
-    console.log('sini')
     if (comment) {
       setIsSendComment(true)
       let form = {

@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect, useContext } from 'react';
 import {
   Dimensions,
   FlatList,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   Text,
@@ -21,6 +22,7 @@ import logo from '../Assets/logo.png'
 import CardHorizontal from '../Components/CardHorizontal';
 import CardVertical from '../Components/CardVertical';
 import FastImage from 'react-native-fast-image';
+import CardCategory from '../Components/CardCategory';
 
 export default function Search({ navigation, route }) {
   const context = useContext(ContextProvider)
@@ -28,6 +30,7 @@ export default function Search({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(false)
   const [popular, setPopular] = useState([])
   const [terbaru, setTerbaru] = useState([])
+  const [category, setCategory] = useState([])
 
   async function getData() {
     setIsLoading(true)
@@ -40,15 +43,33 @@ export default function Search({ navigation, route }) {
     setIsLoading(false)
   }
 
+  async function getCategory() {
+    let { data } = await getRequest('homes/all-category')
+
+    if (data) {
+      setCategory(data.category)
+    }
+  }
+
   useEffect(() => {
+    getCategory()
     getData()
   }, [])
+
   if (isLoading) {
     return <Loading />
   }
   return (
     <SafeAreaView style={{ flex: 1 }} >
-      <ScrollView showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            colors={[GlobalVar.primaryColor]}
+            onRefresh={() => getData()}
+          />
+        }
+      >
         <View style={[GlobalStyles.container, {}]}>
           <View style={[GlobalStyles.spaceBetween, GlobalStyles.p20]}>
             <View style={[GlobalStyles.spaceBetween]}>
@@ -90,11 +111,22 @@ export default function Search({ navigation, route }) {
             }
           </View>
 
+          <FlatList
+            data={category}
+            keyExtractor={(item) => item.id}
+            horizontal
+            contentContainerStyle={[GlobalStyles.p20, {}]}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item, index }) => <CardCategory
+              item={item}
+              onPress={() => navigation.navigate('BottomTab', { screen: 'Explore', params: { category_id: item.id } })}
+            />}
+          />
           <View>
-            <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, GlobalStyles.p20, { marginTop: 10 }]}>Artikel Popular</Text>
+            <Text style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, GlobalStyles.p20, {}]}>Artikel Popular</Text>
             <FlatList
               data={popular}
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) => index + item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
               renderItem={({ item, index }) => <CardHorizontal item={item} index={index} onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />}
@@ -111,7 +143,7 @@ export default function Search({ navigation, route }) {
                 type='label'
               />
             </View>
-            {terbaru.map((item, index) => <CardVertical item={item} key={index} index={index} onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />)}
+            {terbaru.map((item, index) => <CardVertical item={item} key={item.id + index} index={index} onPress={() => navigation.navigate('DetailArticle', { id: item.id })} />)}
           </View>
         </View>
       </ScrollView>

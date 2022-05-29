@@ -21,7 +21,8 @@ export default function CardVertical({ item, index, getArticles = () => { }, sta
       >
         <View style={{ flex: 1, marginRight: 10 }}>
           <View style={[GlobalStyles.row, { marginBottom: 10 }]}>
-            <LabelCategory title={item.total_views} />
+            <LabelCategory title={item.total_views} type="icon" />
+            <LabelCategory title={item.category_name} />
           </View>
           <Text numberOfLines={2} style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { flex: 1, fontSize: 16, marginBottom: 5 }]}>{item.title}</Text>
           <View style={[GlobalStyles.row, {}]}>

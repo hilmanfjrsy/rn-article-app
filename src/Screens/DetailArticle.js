@@ -39,7 +39,7 @@ export default function DetailArticle({ navigation, route }) {
 
   useFocusEffect(
     React.useCallback(() => {
-      let idView = 0;
+      let idView = '';
 
       const getViews = async (idViews = '') => {
 
@@ -72,6 +72,7 @@ export default function DetailArticle({ navigation, route }) {
         <View style={[GlobalStyles.cardBody, { marginTop: 0, padding: 15, borderRadius: 0 }]}>
           <View style={[GlobalStyles.row, { marginBottom: 10 }]}>
             <LabelCategory title={detail?.total_views} />
+            <LabelCategory title={detail?.category_name} />
           </View>
           <Text style={[GlobalStyles.fontPrimary, { fontSize: 16, marginBottom: 10, fontWeight: 'bold' }]}>{detail?.title}</Text>
           <CardAvatar user={detail?.user} size="l" />

@@ -23,7 +23,8 @@ export default function CardHorizontal({ item, index, onPress = () => { } }) {
       />
       <View style={[GlobalStyles.cardHorizontal, { justifyContent: 'space-between' }]}>
         <View style={GlobalStyles.row}>
-          <LabelCategory key={index} title={item.total_views} />
+          <LabelCategory title={item.total_views} type="icon" />
+          <LabelCategory title={item.category_name} />
         </View>
         <View>
           <Text numberOfLines={2} style={[GlobalStyles.fontPrimary, GlobalStyles.fontTitle, { color: 'white', marginBottom: 15 }]}>{item.title}</Text>

@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import { Dimensions, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import WebView from 'react-native-webview';
@@ -7,16 +7,32 @@ import GlobalStyles from '../Utils/GlobalStyles';
 import GlobalVar from '../Utils/GlobalVar';
 import Feat from 'react-native-vector-icons/Feather'
 import FastImage from 'react-native-fast-image';
-import { postRequest, showNotification } from '../Utils/GlobalFunc';
+import { getRequest, postRequest, showNotification } from '../Utils/GlobalFunc';
 import CKEditor from '../Components/CKEditor';
+import { Picker } from '@react-native-picker/picker';
 
 export default function EditArticle({ navigation, route }) {
   const article = route.params.article
   const [contents, setContents] = useState('')
   const [image, setImage] = useState(article.img)
   const [title, setTitle] = useState(article.title)
+  const [categoryId, setCategoryId] = useState(article.category_id)
+  const [category, setCategory] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   var webView = createRef()
+
+  async function getCategory() {
+    let { data } = await getRequest('homes/all-category')
+
+    if (data) {
+      setCategory(data.category)
+    }
+  }
+
+  useEffect(() => {
+    getCategory()
+  }, [])
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
       <View style={[GlobalStyles.container, GlobalStyles.p20, { backgroundColor: 'white' }]}>
@@ -46,6 +62,20 @@ export default function EditArticle({ navigation, route }) {
           }
         </TouchableOpacity>
 
+        <Text style={[GlobalStyles.fontTitle, GlobalStyles.fontPrimary, { marginVertical: 10, marginTop: 20 }]}>Kategori</Text>
+        <View style={{ borderRadius: 10, borderWidth: 1, borderColor: 'grey' }}>
+          <Picker
+            style={{ color: 'grey' }}
+            selectedValue={categoryId}
+            onValueChange={(itemValue, itemIndex) =>
+              setCategoryId(itemValue)
+            }
+          >
+            <Picker.Item label="- Pilih Kategori -" value="" />
+            {category.map(item => <Picker.Item key={item.id} label={item.title} value={item.id} />)}
+          </Picker>
+        </View>
+
         <Text style={[GlobalStyles.fontTitle, GlobalStyles.fontPrimary, { marginVertical: 10 }]}>Konten</Text>
         <CKEditor
           setContents={(v) => setContents(v)}
@@ -56,7 +86,7 @@ export default function EditArticle({ navigation, route }) {
       <View style={{ padding: 20 }}>
         <ButtonPrimary
           isLoading={isLoading}
-          text={'Simpan'}
+          text={'Perbarui'}
           onPress={() => updateArticle()}
         />
       </View>
@@ -65,11 +95,12 @@ export default function EditArticle({ navigation, route }) {
 
   async function updateArticle() {
     setIsLoading(true)
-    if (contents && title && image) {
+    if (contents && title && image && categoryId) {
       let form = {
         contents: contents || article.contents,
         title,
-        img: image
+        img: image,
+        category_id: categoryId
       }
       let { data } = await postRequest(`articles/update/${article.id}`, form)
 
