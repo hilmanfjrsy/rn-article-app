@@ -19,7 +19,7 @@ export default function NotLogged({ navigation, route, icon = 'log-in', text = '
             <View style={[GlobalStyles.row, { marginTop: 80 }]}>
               <TouchableOpacity
                 hitSlop={GlobalVar.hitSlop}
-                onPress={() => { }}
+                onPress={() => { navigation.navigate('Faq') }}
               >
                 <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>FAQ</Text>
               </TouchableOpacity>

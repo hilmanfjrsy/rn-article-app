@@ -9,8 +9,8 @@ import { ContextProvider } from '../../Context/BaseContext';
 
 const Login = ({ navigation }) => {
   const context = useContext(ContextProvider)
-  const [email, setEmail] = useState('hilman@mail.com');
-  const [password, setPassword] = useState('123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [passwordShow, setPasswordShow] = useState(false);
 
